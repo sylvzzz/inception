@@ -2,5 +2,16 @@ services:
   mariadb:
     image: mariadb:11
     container_name: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+      MARIADB_DATABASE: database
+      MARIADB_USER: user
+      MARIADB_PASSWORD: user_password
     ports:
-    - "3306:3306"
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mariadb
+
+volumes:
+  mariadb_data:
