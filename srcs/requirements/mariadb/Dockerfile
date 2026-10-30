@@ -7,9 +7,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends mariadb-server 
 
 RUN rm -rf /var/lib/mysql/*
 
-COPY . /dir
+COPY . /mariadb
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-RUN chmod +x /dir/tools/mariadb.sh
+RUN chmod +x /mariadb/tools/mariadb.sh
 
-ENTRYPOINT ["/dir/tools/mariadb.sh"]
+ENTRYPOINT ["/mariadb/tools/mariadb.sh"]
