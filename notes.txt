@@ -7,3 +7,9 @@ sudo sh get-docker.sh
 connect docker api
 
 sudo usermod -aG docker $USER
+
+Para tirar o domain fake da minha maquina
+sudo sed -i '/dbotelho\.42\.fr/d' /etc/hosts
+
+no meu pc windows
+C:\Windows\System32\drivers\etc
