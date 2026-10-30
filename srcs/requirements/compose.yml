@@ -1,17 +1,36 @@
 services:
   mariadb:
-    image: mariadb:11
     container_name: mariadb
+    image: mariadb
+    env_file: ../.env
+    build: ./mariadb
     restart: always
-    environment:
-      MARIADB_ROOT_PASSWORD: password
-      MARIADB_DATABASE: database
-      MARIADB_USER: user
-      MARIADB_PASSWORD: user_password
-    ports:
-      - "3306:3306"
-    volumes:
-      - mariadb_data:/var/lib/mariadb
+    secrets:
+      - db_root_password
+      - db_admin_password
+      - db_password
+    volumes: [mariadb_data:/var/lib/mysql]
+    networks:
+      - inception
+
+secrets:
+  db_root_password:
+    file: ../../secrets/db_root_password
+  db_admin_password:
+    file: ../../secrets/db_admin_password
+  db_password:
+    file: ../../secrets/db_password
+  
+
+networks:
+  inception:
+    driver: bridge
+
 
 volumes:
   mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dbotelho/data/mariadb

@@ -1,12 +1,15 @@
-from debian:trixie
+FROM debian:bookworm
 
 WORKDIR /
 
-RUN apt-get update && apt-get install -y mariadb-server
+RUN apt-get update && apt-get install -y --no-install-recommends mariadb-server \
+	&& rm -rf /var/lib/apt/lists/*
 
-# meter para copiar para a pasta definitiva
-COPY . dir
+RUN rm -rf /var/lib/mysql/*
 
-RUN chmod +x mariadb.sh
+COPY . /dir
+COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-ENTRYPOINT ["mariadb.sh"]
+RUN chmod +x /dir/tools/mariadb.sh
+
+ENTRYPOINT ["/dir/tools/mariadb.sh"]
